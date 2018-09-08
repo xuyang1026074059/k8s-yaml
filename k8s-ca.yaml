@@ -1,0 +1,40 @@
+apiserver 证书配置
+
+(1) API Server HTTPS 端点使用的证书
+    --tls-cert-file
+	--tls-private-key-file
+(2) Client CA  客户端认证证书
+    --client-ca-file 
+	该配置明确了 Clent 连接 API Server 时，API Server 应当确保其证书源自哪个 CA 签发；
+	如果其证书不是由该 CA 签发，则拒绝请求；事实上，这个 CA 不必与 HTTPS 端点所使用的证书 CA 相同；
+	同时这里的 Client 是一个泛指的，可以是 kubectl，也可能是你自己开发的应用
+(3) Request CA 请求头证书认证
+    --requestheader-allowed-names 
+	--requestheader-client-ca-file
+	当指定这个 CA 证书后，则 API Server 使用 HTTP 头进行认证时会检测其 HTTP 头中发送的证书是否由这个 CA 签发；同样它也可独立于其他 CA(可以是个独立的 CA)
+
+kubelet 证书
+
+(1) API Server 端 kubelet 证书
+--kubelet-certificate-authority string
+    Path to a cert file for the certificate authority.
+--kubelet-client-certificate string
+    Path to a client cert file for TLS.
+--kubelet-client-key string
+    Path to a client key file for TLS.
+
+(2) Kubelet 端证书
+--client-ca-file string
+    If set, any request presenting a client certificate signed by one of the authorities in the client-ca-file is authenticated with an identity corresponding to the CommonName of the client certificate.
+--tls-cert-file string
+    File containing x509 Certificate used for serving HTTPS (with intermediate certs, if any, concatenated after server cert). If --tls-cert-file and --tls-private-key-file are not provided, a self-signed certificate and key are generated for the public address and saved to the directory passed to --cert-dir.
+--tls-private-key-file string
+    File containing x509 private key matching --tls-cert-file.
+
+ServiceAccount 证书
+
+(1) ApiServer 端配置证书
+--service-account-key-file stringArray
+    File containing PEM-encoded x509 RSA or ECDSA private or public keys, used to verify ServiceAccount tokens. The specified file can contain multiple keys, and the flag can be specified multiple times with different files. If unspecified, --tls-private-key-file is used. Must be specified when --service-account-signing-key is provided
+--service-account-signing-key-file string
+    Path to the file that contains the current private key of the service account token issuer. The issuer will sign issued ID tokens with this private key. (Requires the 'TokenRequest' feature gate.)
