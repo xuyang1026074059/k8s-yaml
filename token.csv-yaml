@@ -1,1 +1,6 @@
 echo "$(head -c 6 /dev/urandom | md5sum | head -c 6)"."$(head -c 16 /dev/urandom | md5sum | head -c 16)"
+eg:
+
+  d4f3af.2240b64a186187a2
+
+  //tokenid.tokensecret 
