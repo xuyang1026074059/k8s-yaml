@@ -1,0 +1,35 @@
+docker 1.13 之后提供了prune 命令行用于删除已经停止的容器，示例如下:
+
+(1) docker container prune 
+     
+	通过上面的命令行能够删除这些被停止后的容器
+	
+    docker container prune --filter "until=24h"  
+	
+	删除停止超过24 小时的容器
+
+(2) docker image prune
+
+    通过上面的命令行可以清理不再使用的docker镜像, 清理"悬空"镜像,英文为 dangling, 就是既没有标签名也没有容器引用的镜像就叫"悬空"镜像
+	
+	docker image prune -a --filter "until=24h"
+	
+	清理超过24 小时制作的镜像
+	
+(3) docker  volume prune
+
+    和container 一样，手动清理存储卷
+
+    docker volume prune --filter "label!=keep"	
+	
+	清理除了 label=keep 的存储卷
+	
+(4) docker network prune
+
+    清理没有必要的僵尸网络
+	
+	docker network prune --filter "until=24h"
+	
+(5) docker system prune --volumes 
+
+    一次性清理掉所有的东西
