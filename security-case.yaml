@@ -1,0 +1,10 @@
+securityContext:
+  runAsUser: 1000
+  fsGroup: 1000
+containers:
+- name: container-1
+  securityContext:
+    allowPrivilegedEscalation: false
+- name: container-2
+  securityContext:
+    allowPrivilegedEscalation: false
